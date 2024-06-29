@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חממת הפלאים</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const initialSeeds = [
+            { name: 'שחמט', category: 'משחקים', color: '#000000' },
+            { name: 'אריה', category: 'בעלי חיים', color: '#FFA500' },
+            { name: 'פיצה', category: 'מאכלים', color: '#FF0000' },
+            { name: 'ירח', category: 'יסודות השמיים', color: '#FFFFFF' },
+            { name: 'הר', category: 'יסודות הטבע', color: '#8B4513' },
+            { name: 'כינור', category: 'כלי נגינה', color: '#DEB887' },
+            { name: 'חתול', category: 'פרוות', color: '#808080' },
+            { name: 'מונופול', category: 'משחקים', color: '#008000' },
+            { name: 'דולפין', category: 'בעלי חיים', color: '#87CEEB' },
+            { name: 'גלידה', category: 'מאכלים', color: '#FFC0CB' },
+            { name: 'בועה', category: 'יסודות', color: '#ADD8E6' },
+        ];
+
+        const getCreativePlantDescription = (seed1, seed2) => {
+            const descriptions = {
+                'שחמט-אריה': 'צמח מרהיב שעליו גדלים כלי שחמט בצורת אריות זעירים. בכל פעם שמזיזים "כלי", נשמעת שאגה קטנטנה!',
+                'פיצה-ירח': 'פרחים עגולים וטעימים שזוהרים באור ירח ומפיצים ניחוח של פיצה טרייה. בלילות מלאים, אפשר לקטוף ולאכול פיצה-פרח אמיתית!',
+                'הר-כינור': 'גבעול ענק בצורת הר, עם מיתרים טבעיים שמתוחים לאורכו. הרוח מנגנת עליו סימפוניות מרגשות, והציפורים עוצרות להקשיב.',
+                'חתול-מונופול': 'שיח שעליו גדלים שטרות כסף רכים כפרווה. חתלתולים קטנטנים רצים על ה"לוח", אוספים נכסים ובונים בתים זעירים מעלים.',
+                'דולפין-גלידה': 'עץ שפירותיו הם גביעי גלידה בטעמים שונים. כשקוטפים פרי, הוא מתיז סילון מים קרים וצוחק בקול דולפיני משועשע!',
+                'בועה-שחמט': 'צמח שמייצר בועות שקופות, ובתוכן משחקי שחמט מיניאטוריים מתנהלים. הכלים זזים בכל פעם שהבועה מתנדנדת ברוח!',
+                'בועה-פיצה': 'עלים בצורת בועות שבתוכן צפות פיצות זעירות. כשהבועה מתפוצצת, היא משחררת ניחוח פיצה טרייה לאוויר!',
+                'בועה-ירח': 'פרחים שפורחים בלילה ומפיקים בועות זוהרות כמו ירח קטן. הבועות מרחפות באוויר ומאירות את הגן כולו.',
+                'בועה-כינור': 'צמח שמנגן מנגינות על ידי יצירת בועות בגדלים שונים. כל בועה מפיקה צליל ייחודי כשהיא מתפוצצת.',
+                'בועה-גלידה': 'שיח שמייצר בועות מלאות בטעמי גלידה שונים. אפשר לטעום את הגלידה בלי לפוצץ את הבועה!',
+            };
+            
+            const key1 = `${seed1.name}-${seed2.name}`;
+            const key2 = `${seed2.name}-${seed1.name}`;
+            
+            if (descriptions[key1]) return descriptions[key1];
+            if (descriptions[key2]) return descriptions[key2];
+            
+            const randomDescriptions = [
+                `צמח ה${seed1.name}-${seed2.name} מפתיע בכל יום מחדש! הוא משלב את ה${seed1.category} של ${seed1.name} עם ה${seed2.category} של ${seed2.name}, יוצר תופעה שעוד לא נראתה בטבע.`,
+                `מי היה מאמין ש${seed1.name} ו${seed2.name} יכולים ליצור יחד כזה פלא? הצמח הזה מדהים את כל מבקרי החממה עם יכולותיו הייחודיות!`,
+                `תערובת מופלאה של ${seed1.category} ו${seed2.category}! הצמח הזה מפיץ ניחוחות של ${seed1.name} בבוקר ו${seed2.name} בערב, משנה צבעים לפי מצב הרוח של הגנן.`,
+                `פלא בוטני שמשלב את התכונות הטובות ביותר של ${seed1.name} ו${seed2.name}. מדענים מכל העולם באים לחקור את הצמח הייחודי הזה!`,
+                `הצמח הזה הוא כמו חלום שהתגשם! הוא מגדל ${seed1.name} קטנים שיכולים להפוך ל${seed2.name} בלילה. אף אחד לא מבין איך זה קורה, אבל כולם מסכימים שזה מדהים!`
+            ];
+            
+            return randomDescriptions[Math.floor(Math.random() * randomDescriptions.length)];
+        };
+
+        const GreenhouseWonders = () => {
+            const [player1Seeds, setPlayer1Seeds] = React.useState(initialSeeds);
+            const [player2Seeds, setPlayer2Seeds] = React.useState([...initialSeeds]);
+            const [plants, setPlants] = React.useState([]);
+            const [currentTurn, setCurrentTurn] = React.useState(1);
+            const [selectedSeeds, setSelectedSeeds] = React.useState([null, null]);
+            const [plantDescriptions, setPlantDescriptions] = React.useState([]);
+
+            React.useEffect(() => {
+                if (player1Seeds.length === 0) {
+                    setPlayer1Seeds([...initialSeeds]);
+                }
+                if (player2Seeds.length === 0) {
+                    setPlayer2Seeds([...initialSeeds]);
+                }
+            }, [player1Seeds, player2Seeds]);
+
+            const selectSeed = (seed, player) => {
+                try {
+                    const newSelectedSeeds = [...selectedSeeds];
+                    newSelectedSeeds[player - 1] = seed;
+                    setSelectedSeeds(newSelectedSeeds);
+
+                    if (player === 1) {
+                        setPlayer1Seeds(player1Seeds.filter(s => s.name !== seed.name));
+                    } else {
+                        setPlayer2Seeds(player2Seeds.filter(s => s.name !== seed.name));
+                    }
+
+                    if (newSelectedSeeds[0] && newSelectedSeeds[1]) {
+                        const newPlant = {
+                            name: `${newSelectedSeeds[0].name}-${newSelectedSeeds[1].name}`,
+                            color: blendColors(newSelectedSeeds[0].color, newSelectedSeeds[1].color)
+                        };
+                        const description = getCreativePlantDescription(newSelectedSeeds[0], newSelectedSeeds[1]);
+                        setPlants(prevPlants => [...prevPlants, newPlant].slice(-12));
+                        setPlantDescriptions(prevDescriptions => [...prevDescriptions, { name: newPlant.name, description }]);
+                        setSelectedSeeds([null, null]);
+                        setCurrentTurn(1);
+                    } else {
+                        setCurrentTurn(player === 1 ? 2 : 1);
+                    }
+                } catch (error) {
+                    console.error("Error in selectSeed:", error);
+                }
+            };
+
+            const blendColors = (color1, color2) => {
+                try {
+                    const [r1, g1, b1] = color1.match(/\w\w/g).map(x => parseInt(x, 16));
+                    const [r2, g2, b2] = color2.match(/\w\w/g).map(x => parseInt(x, 16));
+                    const r = Math.round((r1 + r2) / 2).toString(16).padStart(2, '0');
+                    const g = Math.round((g1 + g2) / 2).toString(16).padStart(2, '0');
+                    const b = Math.round((b1 + b2) / 2).toString(16).padStart(2, '0');
+                    return `#${r}${g}${b}`;
+                } catch (error) {
+                    console.error("Error in blendColors:", error);
+                    return "#000000";
+                }
+            };
+
+            const getContrastColor = (hexColor) => {
+                try {
+                    const r = parseInt(hexColor.slice(1, 3), 16);
+                    const g = parseInt(hexColor.slice(3, 5), 16);
+                    const b = parseInt(hexColor.slice(5, 7), 16);
+                    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                    return luminance > 0.5 ? '#000000' : '#FFFFFF';
+                } catch (error) {
+                    console.error("Error in getContrastColor:", error);
+                    return "#FFFFFF";
+                }
+            };
+
+            return (
+                <div className="p-4 bg-gray-100 min-h-screen">
+                    <h1 className="text-3xl font-bold mb-4 text-center">חממת הפלאים</h1>
+                    <div className="flex justify-between mb-4">
+                        <div className="w-1/4">
+                            <h2 className="text-xl font-semibold mb-2">שחקן 1</h2>
+                            <div className="grid grid-cols-2 gap-2">
+                                {player1Seeds.map(seed => (
+                                    <button
+                                        key={seed.name}
+                                        onClick={() => selectSeed(seed, 1)}
+                                        className="p-2 rounded text-xs"
+                                        style={{ backgroundColor: seed.color, color: getContrastColor(seed.color) }}
+                                        disabled={currentTurn !== 1 || selectedSeeds[0] !== null}
+                                    >
+                                        {seed.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-2/4">
+                            <h2 className="text-xl font-semibold mb-2">החממה ({plants.length}/12)</h2>
+                            <div className="grid grid-cols-4 gap-2 bg-white p-4 rounded-lg shadow">
+                                {plants.map((plant, index) => (
+                                    <div
+                                        key={index}
+                                        className="h-16 rounded flex items-center justify-center text-xs text-center"
+                                        style={{ backgroundColor: plant.color, color: getContrastColor(plant.color) }}
+                                    >
+                                        {plant.name}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="w-1/4">
+                            <h2 className="text-xl font-semibold mb-2">שחקן 2</h2>
+                            <div className="grid grid-cols-2 gap-2">
+                                {player2Seeds.map(seed => (
+                                    <button
+                                        key={seed.name}
+                                        onClick={() => selectSeed(seed, 2)}
+                                        className="p-2 rounded text-xs"
+                                        style={{ backgroundColor: seed.color, color: getContrastColor(seed.color) }}
+                                        disabled={currentTurn !== 2 || selectedSeeds[1] !== null}
+                                    >
+                                        {seed.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="text-center mb-4">
+                        <p className="text-xl font-semibold">תור שחקן {currentTurn}</p>
+                        <div className="flex justify-center mt-2">
+                            <div className="w-20 h-10 border rounded mx-1 flex items-center justify-center" 
+                                style={{ backgroundColor: selectedSeeds[0]?.color, color: getContrastColor(selectedSeeds[0]?.color) }}>
+                                {selectedSeeds[0]?.name || 'שחקן 1'}
+                            </div>
+                            <div className="w-20 h-10 border rounded mx-1 flex items-center justify-center" 
+                                style={{ backgroundColor: selectedSeeds[1]?.color, color: getContrastColor(selectedSeeds[1]?.color) }}>
+                                {selectedSeeds[1]?.name || 'שחקן 2'}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white
